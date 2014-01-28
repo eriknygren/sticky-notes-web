@@ -1,9 +1,9 @@
-stickyNotes.Router.map(function() {
-  this.resource('stickyNotes', { path: '/' });
+StickyNotes.Router.map(function() {
+  this.resource('notes', { path: '/' });
 });
 
-stickyNotes.NotesRoute = Ember.Route.extend({
+StickyNotes.NotesRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('Note');
+    return this.store.find('note');
   }
 });

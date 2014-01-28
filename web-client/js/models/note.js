@@ -1,9 +1,9 @@
-stickyNotes.Note = DS.Model.extend({
+StickyNotes.Note = DS.Model.extend({
   title: DS.attr('string'),
   isCompleted: DS.attr('boolean')
 });
 
-stickyNotes.Note.FIXTURES = [
+StickyNotes.Note.FIXTURES = [
  {
    id: 1,
    title: 'Learn Ember.js',
