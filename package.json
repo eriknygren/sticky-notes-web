@@ -1,0 +1,21 @@
+{
+  "name": "sticky-notes-web",
+  "version": "0.1.0",
+  "description": "Web client for node (this is a simple web server to run the emberjs app)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eriknygren/sticky-notes-web"
+  },
+  "author": "Erik Nygren, Mathew Feeney",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/eriknygren/sticky-notes-web/issues"
+  },
+  "dependencies": {
+    "connect": "~2.12.0"
+  }
+}
