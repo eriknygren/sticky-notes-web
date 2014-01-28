@@ -13,6 +13,28 @@
   		<script src="//builds.emberjs.com/tags/v1.0.0-beta.5/ember-data.jss"></script>-->
 	</head>
 	<body>
+			 <script type="text/x-handlebars" data-template-name="stickyNotes">
 
+			    <section id="stickyNotesApp">
+			      	<ul id="note-list">
+						  {{#each}}
+						    <li>
+						      <input type="checkbox" class="toggle">
+						      <label>{{title}}</label><button class="destroy"></button>
+						    </li>
+						  {{/each}}
+					</ul>
+			    </section>
+
+			    <footer id="info">
+			      <p>Double-click to edit a todo</p>
+			    </footer>
+
+			  </script>
+
+  <!-- ... Ember.js and other javascript dependencies ... -->
+  <script src="js/application.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/models/note.js"></script>
 	</body>
 </html>
