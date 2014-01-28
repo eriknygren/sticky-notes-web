@@ -14,6 +14,10 @@
 </head>
 <body>
 	 <script type="text/x-handlebars" data-template-name="notes">
+
+		{{input type="text" id="new-note" placeholder="Write note text" 
+              value=newNoteText action="createNote"}}
+
 	    <section id="notes">
 	      	<ul id="note-list">
 				  {{#each note in notes}}
@@ -24,7 +28,6 @@
 				  {{/each}}
 			</ul>
 	    </section>
-
 	    <footer id="info">
 	      <p>Double-click to edit a todo</p>
 	    </footer>
@@ -34,7 +37,7 @@
 <!-- ... Ember.js and other javascript dependencies ... -->
 <script src="js/application.js"></script>
 <script src="js/models/note.js"></script>
+<script src="js/controllers/notes_controller.js"></script>
 <script src="js/router.js"></script>
-
 </body>
 </html>
