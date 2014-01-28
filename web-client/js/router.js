@@ -4,6 +4,11 @@ StickyNotes.Router.map(function() {
 
 StickyNotes.NotesRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('note');
+
+  	var model = {};
+
+  	model.notes = this.store.find('note');
+
+    return model
   }
 });

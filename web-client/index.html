@@ -1,41 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<!-- dev -->
-		<script src="js/lib/jquery-1.10.2.min.js"></script>
-  		<script src="js/lib/handlebars-1.0.0.js"></script>
-		<script src="js/lib/ember.js"></script>
-  		<script src="js/lib/ember-data.js"></script>
-  		<!-- deploy 
-  		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  		<script src="//builds.handlebarsjs.com.s3.amazonaws.com/handlebars-1.0.0.js"></script>
-		<script src="//builds.emberjs.com/tags/v1.3.0/ember.js"></script>
-  		<script src="//builds.emberjs.com/tags/v1.0.0-beta.5/ember-data.jss"></script>-->
-	</head>
-	<body>
-			 <script type="text/x-handlebars" data-template-name="notes">
+<head>
+	<!-- dev -->
+	<script src="js/lib/jquery-1.10.2.min.js"></script>
+		<script src="js/lib/handlebars-1.0.0.js"></script>
+	<script src="js/lib/ember.js"></script>
+		<script src="js/lib/ember-data.js"></script>
+		<!-- deploy 
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//builds.handlebarsjs.com.s3.amazonaws.com/handlebars-1.0.0.js"></script>
+	<script src="//builds.emberjs.com/tags/v1.3.0/ember.js"></script>
+		<script src="//builds.emberjs.com/tags/v1.0.0-beta.5/ember-data.jss"></script>-->
+</head>
+<body>
+	 <script type="text/x-handlebars" data-template-name="notes">
+	    <section id="notes">
+	      	<ul id="note-list">
+				  {{#each note in notes}}
+				    <li>
+				      <input type="checkbox" class="toggle">
+				      {{note.title}}
+				    </li>
+				  {{/each}}
+			</ul>
+	    </section>
 
-			    <section id="note">
-			      	<ul id="note-list">
-						  {{#each}}
-						    <li>
-						      <input type="checkbox" class="toggle">
-						      <label>{{title}}</label><button class="destroy"></button>
-						    </li>
-						  {{/each}}
-					</ul>
-			    </section>
+	    <footer id="info">
+	      <p>Double-click to edit a todo</p>
+	    </footer>
 
-			    <footer id="info">
-			      <p>Double-click to edit a todo</p>
-			    </footer>
+	  </script>
 
-			  </script>
+<!-- ... Ember.js and other javascript dependencies ... -->
+<script src="js/application.js"></script>
+<script src="js/models/note.js"></script>
+<script src="js/router.js"></script>
 
-  <!-- ... Ember.js and other javascript dependencies ... -->
-  <script src="js/application.js"></script>
-  <script src="js/models/note.js"></script>
-  <script src="js/router.js"></script>
-  
-	</body>
+</body>
 </html>
