@@ -20,16 +20,22 @@
 
 	    <section id="notes">
 	      	<ul id="note-list">
-				  {{#each note in notes}}
-				    <li>
-				      <input type="checkbox" class="toggle">
-				      {{note.title}}
+				  {{#each itemController="note"}}
+				      <li>
+  						  {{input type="checkbox" checked=isCompleted class="toggle"}}
+				      {{title}}
 				    </li>
 				  {{/each}}
 			</ul>
 	    </section>
+
+	    <span id="note-count">
+	    		<strong> {{remaining}}</strong> {{inflection}} left
+	    	</span>
+
 	    <footer id="info">
-	      <p>Double-click to edit a todo</p>
+
+	    	<p>Double-click to edit a todo</p>
 	    </footer>
 
 	  </script>
@@ -38,6 +44,7 @@
 <script src="js/application.js"></script>
 <script src="js/models/note.js"></script>
 <script src="js/controllers/notes_controller.js"></script>
+<script src="js/controllers/note_controller.js"></script>
 <script src="js/router.js"></script>
 </body>
 </html>

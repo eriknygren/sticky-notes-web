@@ -1,4 +1,4 @@
-StickyNotes.NotesController = Ember.ObjectController.extend({
+StickyNotes.NotesController = Ember.ArrayController.extend({
   actions: {
     createNote: function() {
       // Get the note title set by the "New note" text field
@@ -17,5 +17,14 @@ StickyNotes.NotesController = Ember.ObjectController.extend({
       // Save the new model
       note.save();
     }
-  }
+  },
+  
+  remaining: function(){
+    return this.filterBy('isCompleted', false).get('length');
+  }.property('@each.isCompleted'),
+
+  inflection: function(){
+    var remaining = this.get('remaining');
+    return remaining === 1 ? 'note' : 'notes';
+  }.property('remaining'),
 });
