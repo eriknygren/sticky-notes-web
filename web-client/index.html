@@ -13,21 +13,42 @@
 		<script src="//builds.emberjs.com/tags/v1.0.0-beta.5/ember-data.jss"></script>-->
 </head>
 <body>
-	 <script type="text/x-handlebars" data-template-name="notes">
-
-		{{input type="text" id="new-note" placeholder="Write note text" 
-              value=newNoteText action="createNote"}}
-
-	    <section id="notes">
-	      	<ul id="note-list">
+	<script type="text/x-handlebars" data-template-name="StickyNotes/index">
+	 	<ul id="note-list">
 				  {{#each itemController="note"}}
-				      <li>
+				      <li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
+				      {{#if isEditing}}
+      						{{edit-note class="edit" value=title focus-out="acceptChanges"
+                           insert-newline="acceptChanges"}}
+  					  {{else}}
   						  {{input type="checkbox" checked=isCompleted class="toggle"}}
-				      {{title}}
+				     		<lable {{action "editNote" on="doubleClick"}}> {{title}} </lable><button title = "Delete Note?" {{action "removeNote"}}  class="destroy"></button>
+				      {{/if}}
 				    </li>
 				  {{/each}}
 			</ul>
-	    </section>
+		
+    </script>
+	<script type="text/x-handlebars" data-template-name="notes">
+	      {{input type="text" id="new-note" placeholder="Write note text" 
+              value=newNoteText action="createNote"}}
+
+
+
+	    <section id="main">
+  			{{outlet}}
+  			<input type="checkbox" id="toggle-all">
+		</section>
+
+		<li>
+			 <a href="all">All</a>
+		</li>
+		<li>
+		 	 {{#link-to "notes.active" activeClass="selected"}}Active{{/link-to}}
+		</li>
+		<li>
+			  <a href="completed">Completed</a>
+		</li>
 
 	    <span id="note-count">
 	    		<strong> {{remaining}}</strong> {{inflection}} left
@@ -35,7 +56,7 @@
 
 	    <footer id="info">
 
-	    	<p>Double-click to edit a todo</p>
+	    	<p>Double-click to edit a note</p>
 	    </footer>
 
 	  </script>
@@ -46,5 +67,6 @@
 <script src="js/controllers/notes_controller.js"></script>
 <script src="js/controllers/note_controller.js"></script>
 <script src="js/router.js"></script>
+<script src="js/views/edit_note_view.js"></script>
 </body>
 </html>
