@@ -3,9 +3,10 @@
 <head>
 	<!-- dev -->
 	<script src="js/lib/jquery-1.10.2.min.js"></script>
-		<script src="js/lib/handlebars-1.0.0.js"></script>
+	<script src="js/lib/handlebars-1.0.0.js"></script>
 	<script src="js/lib/ember.js"></script>
-		<script src="js/lib/ember-data.js"></script>
+	<script src="js/lib/ember-data.js"></script>
+	
 		<!-- deploy 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//builds.handlebarsjs.com.s3.amazonaws.com/handlebars-1.0.0.js"></script>
@@ -16,14 +17,14 @@
 	<script type="text/x-handlebars" data-template-name="StickyNotes/index">
 	 	<ul id="note-list">
 				  {{#each itemController="note"}}
-				      <li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
-				      {{#if isEditing}}
+				      	<li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
+				     	 {{#if isEditing}}
       						{{edit-note class="edit" value=title focus-out="acceptChanges"
                            insert-newline="acceptChanges"}}
-  					  {{else}}
+  					  	{{else}}
   						  {{input type="checkbox" checked=isCompleted class="toggle"}}
 				     		<lable {{action "editNote" on="doubleClick"}}> {{title}} </lable><button title = "Delete Note?" {{action "removeNote"}}  class="destroy"></button>
-				      {{/if}}
+				      	{{/if}}
 				    </li>
 				  {{/each}}
 			</ul>
@@ -37,17 +38,17 @@
 
 	    <section id="main">
   			{{outlet}}
-  			<input type="checkbox" id="toggle-all">
+  			{{input type="checkbox" id="toggle-all" checked=allAreDone}}
 		</section>
 
 		<li>
-			 <a href="all">All</a>
+			 {{#link-to "notes.index" activeClass="selected"}}All{{/link-to}}
 		</li>
 		<li>
 		 	 {{#link-to "notes.active" activeClass="selected"}}Active{{/link-to}}
 		</li>
 		<li>
-			  <a href="completed">Completed</a>
+			  {{#link-to "notes.completed" activeClass="selected"}}Completed{{/link-to}}
 		</li>
 
 	    <span id="note-count">
@@ -57,11 +58,19 @@
 	    <footer id="info">
 
 	    	<p>Double-click to edit a note</p>
+
+	    	{{#if hasCompleted}}
+				<button id="clear-completed" {{action "clearCompleted"}}>
+			    	Clear completed ({{completed}})
+			 	</button>
+			{{/if}}
 	    </footer>
 
 	  </script>
 
 <!-- ... Ember.js and other javascript dependencies ... -->
+<script src="js/lib/localstorage_adapter.js"></script>
+
 <script src="js/application.js"></script>
 <script src="js/models/note.js"></script>
 <script src="js/controllers/notes_controller.js"></script>

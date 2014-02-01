@@ -1,2 +1,5 @@
 window.StickyNotes = Ember.Application.create();
-StickyNotes.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+StickyNotes.ApplicationAdapter = DS.LSAdapter.extend({
+	namespace: 'StickyNotes-emberjs'
+});
