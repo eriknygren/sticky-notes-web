@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json; charset=UTF-8');
 define('STICKY_BASE', 'http://stickyapi.alanedwardes.com/');
 
 function get_response($url)
@@ -17,5 +18,5 @@ function get_response($url)
 }
 
 $result = get_response(STICKY_BASE . @$_REQUEST['method']);
-//http_response_code($result['code']);
+http_response_code($result['code']);
 echo $result['response'];
