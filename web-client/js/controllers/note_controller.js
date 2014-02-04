@@ -1,5 +1,5 @@
 StickyNotes.NoteController = Ember.ObjectController.extend({
-	isCompleted: function(key, value){
+	/*isCompleted: function(key, value){
 		var model = this.get('model');
  	if (value === undefined) {
       // property being used as a getter
@@ -10,7 +10,7 @@ StickyNotes.NoteController = Ember.ObjectController.extend({
       model.save();
       return value;
     }
-	}.property('model.isCompleted'),
+	}.property('model.isCompleted'),*/
   actions: {
    editNote: function() {
      this.set('isEditing', true);
@@ -18,7 +18,7 @@ StickyNotes.NoteController = Ember.ObjectController.extend({
     acceptChanges: function() {
     this.set('isEditing', false);
 
-    if (Ember.isEmpty(this.get('model.title'))) {
+    if (Ember.isEmpty(this.get('model.body'))) {
       this.send('removeNote');
     } else {
       this.get('model').save();

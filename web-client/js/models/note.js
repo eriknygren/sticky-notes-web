@@ -1,22 +1,32 @@
 StickyNotes.Note = DS.Model.extend({
-  title: DS.attr('string'),
-  isCompleted: DS.attr('boolean')
+  noteId: DS.attr('number'),
+  body: DS.attr('string'),
+  created: DS.attr('date'),
+  author: DS.attr('string'),
 });
 
 StickyNotes.Note.FIXTURES = [
  {
-   id: 1,
-   title: 'Learn Ember.js',
-   isCompleted: true
+   noteId: 1,
+   body: 'Learn Ember.js',
+   created:'12/01/14',
+   author: 'Joe Bloggs'
  },
  {
-   id: 2,
-   title: '...',
-   isCompleted: false
+   noteId: 2,
+   body: 'Learn Ember.js',
+   created:'12/01/14',
+   author: 'Joe Bloggs'
  },
  {
-   id: 3,
-   title: 'Profit!',
-   isCompleted: false
+   noteId: 3,
+   body: 'Learn Ember.js',
+   created:'12/01/14',
+   author: 'Joe Bloggs'
  }
 ];
+
+//id bigint
+//body text
+//created datetime
+//author

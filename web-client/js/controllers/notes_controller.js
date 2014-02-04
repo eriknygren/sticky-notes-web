@@ -7,8 +7,8 @@ StickyNotes.NotesController = Ember.ArrayController.extend({
 
       // Create the new Note model
       var note = this.store.createRecord('note', {
-        title: newNoteText,
-        isCompleted: false
+        body: newNoteText,
+        //isCompleted: false
       });
 
       // Clear the input text field
@@ -17,11 +17,11 @@ StickyNotes.NotesController = Ember.ArrayController.extend({
       // Save the new model
       note.save();
     },
-    clearCompleted: function() {
+    /*clearCompleted: function() {
       var completed = this.filterBy('isCompleted', true);
       completed.invoke('deleteRecord');
       completed.invoke('save');
-    },
+    },*/
   },
 
   hasCompleted: function() {

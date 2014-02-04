@@ -23,7 +23,7 @@
                            insert-newline="acceptChanges"}}
   					  	{{else}}
   						  {{input type="checkbox" checked=isCompleted class="toggle"}}
-				     		<lable {{action "editNote" on="doubleClick"}}> {{title}} </lable><button title = "Delete Note?" {{action "removeNote"}}  class="destroy"></button>
+				     		<lable {{action "editNote" on="doubleClick"}}> {{body}} </lable><button title = "Delete Note?" {{action "removeNote"}}  class="destroy"></button>
 				      	{{/if}}
 				    </li>
 				  {{/each}}
