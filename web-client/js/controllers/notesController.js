@@ -46,5 +46,19 @@ notesApp.controller(
             {
                 console.log(data)
             }
+
+            $scope.onAddNoteClicked = function()
+            {
+                //Create Note
+                $scope.newNote = {'author' : '1','body' : $scope.noteBody, 'created' : Date(), 'id' : 21 }; 
+                //Push Note to array
+                $scope.notes.push($scope.newNote);
+                //Clear Note TextBox
+                $scope.noteBody = "";
+            }
+            $scope.onDeleteClicked = function()
+            {
+               console.info("delete");
+            }
             
         }]);

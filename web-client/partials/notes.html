@@ -1,5 +1,11 @@
+
 <div ng-controller="NotesController">
 		<ul ng-repeat="note in notes">
-			<li>{{note.body}}</li>
+			<li>{{note.body}} <button ng-click="onDeleteClicked()">Delete</button></li>
 		</ul>
+
+		<form ng-submit="onAddNoteClicked()">
+        	<input ng-model="noteBody" placeholder="Note..." type="text"/>
+        	<input type="submit" value="Add Note" id="addNote-button">
+   		</form>
 </div>
