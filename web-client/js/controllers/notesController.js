@@ -19,7 +19,7 @@ notesApp.controller(
             $.ajax({
                 type: 'POST',
                 url: 'http://stickyapi.alanedwardes.com/user/login',
-                data: {'username': 'test@example.com', 'password': 'password' },
+                data: {'username': loginData.username, 'password': loginData.password },
                 success: function(response) {
                     sessionToken = response.session.id;
                     
@@ -53,12 +53,32 @@ notesApp.controller(
                 $scope.newNote = {'author' : '1','body' : $scope.noteBody, 'created' : Date(), 'id' : 21 }; 
                 //Push Note to array
                 $scope.notes.push($scope.newNote);
+                //Push note to db
+                $.ajax({
+                        type: 'POST',
+                        url: 'http://stickyapi.alanedwardes.com/notes/save',
+                        data: {'body' : $scope.newNote.body,'token': sessionToken },
+                        success: function(notes) {
+                            console.info("NotePosted");
+                        }
+                });
                 //Clear Note TextBox
                 $scope.noteBody = "";
             }
-            $scope.onDeleteClicked = function()
+            $scope.onDeleteClicked = function(index)
             {
-               console.info("delete");
-            }
-            
+               
+                //Remove note from db
+                $.ajax({
+                        type: 'POST',
+                        url: 'http://stickyapi.alanedwardes.com/notes/delete',
+                        data: {'id' : $scope.notes[index].id,'token': sessionToken },
+                        success: function(notes) {
+                            console.info("Note : "+ $scope.notes[index].id + " - Delete");
+                        }
+                });
+
+                //Remove note from notes
+                $scope.notes.splice(index,1);
+            }    
         }]);
