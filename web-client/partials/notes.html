@@ -1,7 +1,7 @@
 
 <div ng-controller="NotesController">
 		<ul ng-repeat="note in notes">
-			<li>{{note.body}} <button ng-click="onDeleteClicked($index)">Delete</button></li>
+			<li>{{note.body}} <button ng-click="onDeleteClicked()">Delete</button></li>
 		</ul>
 
 		<form ng-submit="onAddNoteClicked()">
