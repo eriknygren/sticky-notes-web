@@ -16,6 +16,7 @@
     "url": "https://github.com/eriknygren/sticky-notes-web/issues"
   },
   "dependencies": {
-    "connect": "~2.12.0"
+    "connect": "~2.12.0",
+    "express": "~3.4.8"
   }
 }
