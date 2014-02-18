@@ -1,11 +1,34 @@
 notesApp.controller(
-    'LoginController', ['$scope', '$location',
-        function($scope, $location)
+    'LoginController', ['$scope', '$location', 'sessionService',
+        function($scope, $location, sessionService)
         {
+            // Hardcoding these values because it's boring to type
+            $scope.username = "test@example.com";
+            $scope.password = "password";
+
             $scope.onLoginClicked = function()
             {
                 console.log($scope.username + " " + $scope.password);
-                $location.path('/notes');
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/user/login',
+                    data: {'username': $scope.username, 'password': $scope.password },
+                    success: function(response) {
+
+                        sessionService.setSessionToken(response.session.id);
+
+                        $location.path('/notes');
+
+                        if(!$scope.$$phase)
+                        {
+                            $scope.$apply()
+                        }
+                    },
+                    error: function(data, status, headers, config) {
+                        console.log(data);
+                    }
+                });
             }
 
         }]);
