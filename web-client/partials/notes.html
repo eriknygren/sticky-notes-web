@@ -1,6 +1,7 @@
 
 <div ng-controller="NotesController">
-		<ul ng-repeat="note in notes">
+		<input ng-model="searchNotes" placeholder="Search..." type="text"/>
+		<ul ng-repeat="note in notes | filter:searchNotes">
 			<li>{{note.body}} <button ng-click="onDeleteClicked($index)">Delete</button></li>
 		</ul>
 
