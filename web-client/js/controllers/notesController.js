@@ -44,6 +44,38 @@ notesApp.controller(
                 //Clear Note TextBox
                 $scope.noteBody = "";
             }
+            $scope.onEditClicked = function(index, noteBody)
+            {
+               //console.info(index + " - " + noteBody);
+
+                $scope.editNoteBody = noteBody; 
+                $scope.editNoteId = index; 
+                
+                //$scope.notes[index].body = "noteEdited";
+               
+            }  
+            $scope.onEditSaveClicked = function(editNoteId, editNoteBody)
+            {
+
+                //compare editnote to notes[index]
+                if(editNoteBody != $scope.notes[editNoteId].body)
+                {
+                    $scope.notes[editNoteId].body = editNoteBody;
+                    $scope.editNoteBody = $scope.editNoteId = "";
+
+
+                    //uncomment when server has edit feature
+                    /*$.ajax({
+                        type: 'POST',
+                        url: 'http://stickyapi.alanedwardes.com/notes/edit',
+                        data: {'id' : $scope.notes[editNoteId].id, 'body' : editNoteBody, 'token': sessionToken },
+                        success: function(notes) {
+                            ;
+                        }
+                    });*/
+                    
+                } 
+            }
             $scope.onDeleteClicked = function(index)
             {
                

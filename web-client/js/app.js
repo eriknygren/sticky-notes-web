@@ -1,4 +1,4 @@
-var notesApp = angular.module('notesApp', ['ngRoute']);
+var notesApp = angular.module('notesApp', ['ngRoute', 'ui.bootstrap']);
 
 notesApp.config(['$routeProvider', '$locationProvider',
     function($routeProvider, $locationProvider )
