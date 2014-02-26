@@ -1,0 +1,51 @@
+.no-text-selection
+{
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none;
+}
+
+.standard-cursor {
+    cursor: default !important;
+}
+
+.clear {
+    clear: both;
+}
+
+.vertical-spacing
+{
+    margin: 0;
+    height: 16px;
+    display: block;
+}
+
+#main {
+    position: fixed;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    padding: 10px;
+    left: 25px;
+    right: 25px;
+    top: 0;
+    bottom: 0;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+}
+
+.note-container {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    margin-top: 10px;
+    width: 148px;
+    height: 148px;
+    padding: 5px;
+    border: 1px solid;
+}
+
+.note-container-buttons {
+    position: absolute;
+    bottom: 0px;
+    width: 148;
+    margin-bottom: 3px;
+}

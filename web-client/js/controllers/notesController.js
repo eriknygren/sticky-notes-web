@@ -3,27 +3,44 @@ notesApp.controller(
         function($scope, $http, sessionService, safeApplyService)
         {
             $scope.notes = [];
+            $scope.boards = [];
+            $scope.currentBoardID = null;
 
             var sessionToken = sessionService.getSessionToken();
+            initiateData();
 
-            //change to $http to use the angularjs http service, but it doesn't like CORS at the moment
-            // so using jQuery one atm...
-                    
-            $.ajax({
-                type: 'POST',
-                url: 'http://stickyapi.alanedwardes.com/notes/list',
-                data: {'token': sessionToken },
-                success: function(notes) {
+            function initiateData()
+            {
+                //change to $http to use the angularjs http service, but it doesn't like CORS at the moment
+                // so using jQuery one atm...
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/notes/list',
+                    data: {'token': sessionToken },
+                    success: function(data) {
 
-                    $scope.notes = notes;
+                        $scope.notes = data.notes;
 
-                    //Refresh array in view
-                    safeApplyService.apply($scope, $scope.notes);
-                },
-                error: errorHandler
-            });
+                        //Refresh array in view
+                        safeApplyService.apply($scope, $scope.notes);
+                    },
+                    error: errorHandler
+                });
 
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/boards/list',
+                    data: {'token': sessionToken },
+                    success: function(data) {
 
+                        $scope.boards = data.boards;
+
+                        //Refresh array in view
+                        safeApplyService.apply($scope, $scope.boards);
+                    },
+                    error: errorHandler
+                });
+            }
 
             $scope.onAddNoteClicked = function()
             {
@@ -31,7 +48,7 @@ notesApp.controller(
                 $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/save',
-                        data: {'body' : $scope.noteBody,'token': sessionToken },
+                        data: {'body' : $scope.noteBody,'token': sessionToken, 'boardID': $scope.currentBoardID},
                         success: function(note) {
                             console.info("Note posted");
 
@@ -96,6 +113,11 @@ notesApp.controller(
                         error: errorHandler
 
                 });
+            }
+
+            $scope.tabSelected = function(boardID)
+            {
+                $scope.currentBoardID = boardID;
             }
 
             function errorHandler(data, status, headers, config)

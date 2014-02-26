@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/js/lib/jquery-1.10.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="/js/lib/jquery-1.10.2.min.js"></script>
     <script src="/js/lib/jquery-cookie/jquery.cookie.js"></script>
 	<script src="/js/lib/angularjs/angular.min.js"></script>
 	<script src="/js/lib/angularjs/angular-route.min.js"></script>
@@ -16,6 +17,8 @@
     <script src="/js/services/sessionService.js"></script>
 </head>
 <body ng-app="notesApp">
-	<div ng-view></div>
+    <div id="main">
+        <div ng-view></div>
+    </div>
 </body>
 </html>
