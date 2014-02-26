@@ -12,8 +12,8 @@
         <div class="note-container">
             {{note.body}}
             <div class="note-container-buttons">
-                <button ng-click="onEditClicked($index, note.body)">Edit</button>
-                <button ng-click="onDeleteClicked($index)">Delete</button>
+                <button class="btn btn-primary btn-sm" ng-click="onEditClicked($index, note.body)">Edit</button>
+                <button class="btn btn-danger btn-sm" ng-click="onDeleteClicked($index)">Delete</button>
             </div>
         </div>
     </div>
@@ -21,12 +21,13 @@
     <div>
 		<form ng-submit="onAddNoteClicked()">
         	<input ng-model="noteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" value="Add Note" id="addNote-button">
+        	<input type="submit" class="btn btn-primary" value="Add Note" id="addNote-button">
    		</form>
+        <div class="vertical-spacing"></div>
    		<form ng-submit="onEditSaveClicked (editNoteId, editNoteBody)">
    			<input ng-model="editNoteId" placeholder="Note..." type="hidden"/>
         	<input ng-model="editNoteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" value="Save Edit" id="addNote-button">
+        	<input type="submit" class="btn btn-primary" value="Save Edit" id="addNote-button">
    		</form>
     </div>
 </div>
