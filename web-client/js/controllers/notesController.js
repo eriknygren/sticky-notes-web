@@ -61,18 +61,20 @@ notesApp.controller(
                 if(editNoteBody != $scope.notes[editNoteId].body)
                 {
                     $scope.notes[editNoteId].body = editNoteBody;
-                    $scope.editNoteBody = $scope.editNoteId = "";
+                    
 
 
                     //uncomment when server has edit feature
-                    /*$.ajax({
+                   /* $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/edit',
-                        data: {'id' : $scope.notes[editNoteId].id, 'body' : editNoteBody, 'token': sessionToken },
+                        data: {'id' : $scope.notes[editNoteId].id, 'title' : '', 'body' : editNoteBody, 'token': sessionToken },
                         success: function(notes) {
                             ;
                         }
-                    });*/
+                    });
+                    */
+                    $scope.editNoteBody = $scope.editNoteId = "";
                     
                 } 
             }

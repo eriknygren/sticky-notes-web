@@ -2,11 +2,20 @@
 <div ng-controller="NotesController">
 		<input ng-model="searchNotes" placeholder="Search..." type="text"/>
 		<ul ng-repeat="note in notes | filter:searchNotes">
-			<li>{{note.body}} <button ng-click="onDeleteClicked($index)">Delete</button></li>
+			<li>
+				{{note.body}} 
+				<button ng-click="onEditClicked($index, note.body)">Edit</button>
+				<button ng-click="onDeleteClicked($index)">Delete</button>
+			</li>
 		</ul>
 
 		<form ng-submit="onAddNoteClicked()">
         	<input ng-model="noteBody" placeholder="Note..." type="text"/>
         	<input type="submit" value="Add Note" id="addNote-button">
+   		</form>
+   		<form ng-submit="onEditSaveClicked (editNoteId, editNoteBody)">
+   			<input ng-model="editNoteId" placeholder="Note..." type="hidden"/>
+        	<input ng-model="editNoteBody" placeholder="Note..." type="text"/>
+        	<input type="submit" value="Save Edit" id="addNote-button">
    		</form>
 </div>
