@@ -5,6 +5,7 @@ notesApp.controller(
             $scope.notes = [];
             $scope.boards = [];
             $scope.currentBoardID = null;
+            $scope.userID = sessionService.getUserID();
 
             var sessionToken = sessionService.getSessionToken();
             initiateData();

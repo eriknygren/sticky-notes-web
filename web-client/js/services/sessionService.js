@@ -12,6 +12,16 @@ notesApp.factory('sessionService', function(cookieService)
         cookieService.writeCookie('token', value, '/');
     }
 
+    sessionService.getUserID = function()
+    {
+        return cookieService.readCookie('userID');
+    }
+
+    sessionService.setUserID = function(value)
+    {
+        cookieService.writeCookie('userID', value, '/');
+    }
+
     // To be used when logging out
     sessionService.clearSessionToken = function()
     {
