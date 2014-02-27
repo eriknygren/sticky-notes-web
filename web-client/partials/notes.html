@@ -2,8 +2,8 @@
 <div ng-controller="NotesController">
     <div class="no-text-selection standard-cursor">
         <tabset>
-            <tab heading="Private Notes" select="tabSelected(null)"></tab>
-            <tab ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
+            <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
+            <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
         </tabset>
     </div>
     <div class="vertical-spacing"></div>

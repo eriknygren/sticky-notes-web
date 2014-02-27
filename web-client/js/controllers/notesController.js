@@ -6,6 +6,7 @@ notesApp.controller(
             $scope.boards = [];
             $scope.currentBoardID = null;
             $scope.userID = sessionService.getUserID();
+            $scope.canClickTabs = true;
 
             var sessionToken = sessionService.getSessionToken();
             initiateData();
@@ -119,6 +120,66 @@ notesApp.controller(
             $scope.tabSelected = function(boardID)
             {
                 $scope.currentBoardID = boardID;
+
+                if (boardID == null)
+                {
+                    return;
+                }
+
+                getNotesForBoard(boardID);
+
+            }
+
+            function getNotesForBoard(boardID)
+            {
+                if (isBoardLoaded(boardID))
+                {
+                    return;
+                }
+
+                for (var i = 0; i < $scope.boards.length; i++)
+                {
+                    if ($scope.boards[i].id == boardID)
+                    {
+                        $scope.canClickTabs = false;
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://stickyapi.alanedwardes.com/notes/list',
+                            data: {'token': sessionToken, 'boardID': boardID },
+                            success: function(data) {
+
+                                for (var i2 = 0; i2 < data.notes.length; i2++)
+                                {
+                                    $scope.notes.push(data.notes[i2]);
+
+                                }
+
+                                $scope.canClickTabs = true;
+
+                                //Refresh array in view
+                                safeApplyService.apply($scope, $scope.notes);
+                                //$scope.boards[i].isLoaded = true;
+                            },
+                            error: function(data) {
+                                $scope.canClickTabs = true;
+                                console.log(data);
+                            }
+                        });
+                    }
+                }
+            }
+
+            function isBoardLoaded(boardID)
+            {
+                for (var i = 0; i < $scope.notes.length; i++)
+                {
+                    if ($scope.notes[i].board_id == boardID)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
 
             function errorHandler(data, status, headers, config)
