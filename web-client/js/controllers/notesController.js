@@ -2,6 +2,13 @@ notesApp.controller(
     'NotesController', ['$scope', '$http', 'sessionService', 'safeApplyService',
         function($scope, $http, sessionService, safeApplyService)
         {
+            var boardNotes = {
+
+                privateBoard: {},
+                sharedBoards: []
+            };
+
+
             $scope.notes = [];
             $scope.boards = [];
             $scope.currentBoardID = null;
@@ -22,9 +29,9 @@ notesApp.controller(
                     success: function(data) {
 
                         $scope.notes = data.notes;
+                        boardNotes.privateBoard.notes = data.notes;
 
-                        //Refresh array in view
-                        safeApplyService.apply($scope, $scope.notes);
+                        showNotesInView(data.notes);
                     },
                     error: errorHandler
                 });
@@ -36,6 +43,7 @@ notesApp.controller(
                     success: function(data) {
 
                         $scope.boards = data.boards;
+                        boardNotes.sharedBoards = data.boards;
 
                         //Refresh array in view
                         safeApplyService.apply($scope, $scope.boards);
@@ -80,26 +88,21 @@ notesApp.controller(
                 if(editNoteBody != $scope.notes[editNoteId].body)
                 {
                     $scope.notes[editNoteId].body = editNoteBody;
-                    
 
-
-                    //uncomment when server has edit feature
-                   /* $.ajax({
+                   $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/edit',
                         data: {'id' : $scope.notes[editNoteId].id, 'title' : '', 'body' : editNoteBody, 'token': sessionToken },
                         success: function(notes) {
-                            ;
                         }
                     });
-                    */
+
                     $scope.editNoteBody = $scope.editNoteId = "";
                     
                 } 
             }
             $scope.onDeleteClicked = function(index)
             {
-               
                 //Remove note from db
                 $.ajax({
                         type: 'POST',
@@ -123,6 +126,7 @@ notesApp.controller(
 
                 if (boardID == null)
                 {
+                    showNotesInView(boardNotes.privateBoard.notes);
                     return;
                 }
 
@@ -132,54 +136,51 @@ notesApp.controller(
 
             function getNotesForBoard(boardID)
             {
-                if (isBoardLoaded(boardID))
+                for (var i = 0; i < boardNotes.sharedBoards.length; i++)
                 {
-                    return;
-                }
-
-                for (var i = 0; i < $scope.boards.length; i++)
-                {
-                    if ($scope.boards[i].id == boardID)
+                    if (boardNotes.sharedBoards[i].id == boardID)
                     {
-                        $scope.canClickTabs = false;
-                        $.ajax({
-                            type: 'POST',
-                            url: 'http://stickyapi.alanedwardes.com/notes/list',
-                            data: {'token': sessionToken, 'boardID': boardID },
-                            success: function(data) {
-
-                                for (var i2 = 0; i2 < data.notes.length; i2++)
-                                {
-                                    $scope.notes.push(data.notes[i2]);
-
-                                }
-
-                                $scope.canClickTabs = true;
-
-                                //Refresh array in view
-                                safeApplyService.apply($scope, $scope.notes);
-                                //$scope.boards[i].isLoaded = true;
-                            },
-                            error: function(data) {
-                                $scope.canClickTabs = true;
-                                console.log(data);
+                        if (typeof boardNotes.sharedBoards[i].isLoaded !== 'undefined')
+                        {
+                            if (boardNotes.sharedBoards[i].isLoaded)
+                            {
+                                // This board is already loaded, display the cached notes in the view
+                                showNotesInView(boardNotes.sharedBoards[i].notes);
+                                return;
                             }
-                        });
+                        }
+
+                        // if the code hasn't triggered a return, proceed and get notes from  the server below
+                        break;
                     }
                 }
+
+                $scope.canClickTabs = false;
+                console.log('Getting notes for board ' + boardID);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/notes/list',
+                    data: {'token': sessionToken, 'boardID': boardID },
+                    success: function(data) {
+
+                        $scope.canClickTabs = true;
+                        boardNotes.sharedBoards[i].isLoaded = true;
+                        boardNotes.sharedBoards[i].notes = data.notes;
+
+                        showNotesInView(data.notes);
+                    },
+                    error: function(data) {
+                        $scope.canClickTabs = true;
+                        console.log(data);
+                    }
+                });
             }
 
-            function isBoardLoaded(boardID)
+            function showNotesInView(notes)
             {
-                for (var i = 0; i < $scope.notes.length; i++)
-                {
-                    if ($scope.notes[i].board_id == boardID)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                $scope.notes = notes;
+                //Refresh array in view
+                safeApplyService.apply($scope, $scope.notes);
             }
 
             function errorHandler(data, status, headers, config)
