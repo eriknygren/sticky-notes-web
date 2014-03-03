@@ -73,12 +73,9 @@ notesApp.controller(
             }
             $scope.onEditClicked = function(index, noteBody)
             {
-               //console.info(index + " - " + noteBody);
 
                 $scope.editNoteBody = noteBody; 
                 $scope.editNoteId = index; 
-                
-                //$scope.notes[index].body = "noteEdited";
                
             }  
             $scope.onEditSaveClicked = function(editNoteId, editNoteBody)
@@ -149,7 +146,6 @@ notesApp.controller(
                                 return;
                             }
                         }
-
                         // if the code hasn't triggered a return, proceed and get notes from  the server below
                         break;
                     }

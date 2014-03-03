@@ -41,11 +41,18 @@
     height: 148px;
     padding: 5px;
     border: 1px solid;
+    overflow: hidden;
 }
-
+.note-body{
+    width: 148px;
+    height: 148px;
+    overflow: scroll;
+    padding-bottom: 50px;
+}
 .note-container-buttons {
     position: absolute;
     bottom: 0px;
-    width: 148;
-    margin-bottom: 3px;
+    width: 148px;
+    padding: 3px 0px;
+    background-color: white;
 }
