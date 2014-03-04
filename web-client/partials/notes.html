@@ -1,9 +1,13 @@
+<div id="header">
+<h1> Header</h1>
+</div>
 
 <div ng-controller="NotesController">
     <div class="no-text-selection standard-cursor">
         <tabset>
             <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
             <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
+            <tab ng-disabled="!canClickTabs" heading="+" select="tabSelected('newBoard')"></tab>
         </tabset>
     </div>
     <div class="vertical-spacing"></div>
@@ -13,23 +17,28 @@
             <div class="note-body">
                 {{note.body}}
             </div>
+            <!--
             <div class="note-container-buttons">
                 <button ng-disabled="note.author.toString() !== userID" class="btn btn-primary btn-sm" ng-click="onEditClicked($index, note.body)">Edit</button>
-                <button ng-disabled="note.author.toString() !== userID" class="btn btn-danger btn-sm" ng-click="onDeleteClicked($index)">Delete</button>
+                <button ng-disabled="note.author.toString() !== userID" class="btn btn-delete btn-sm" ng-click="onDeleteClicked($index)">Delete</button>
             </div>
+            -->
         </div>
+    </div>
+    <div class="addNote">
+        <p>+</p>
     </div>
     <div class="clear vertical-spacing"></div>
     <div>
 		<form ng-submit="onAddNoteClicked()">
         	<input ng-model="noteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" class="btn btn-primary" value="Add Note" id="addNote-button">
+        	<input type="submit" class="btn btn-stickynotes" value="Add Note" id="addNote-button">
    		</form>
         <div class="vertical-spacing"></div>
    		<form ng-submit="onEditSaveClicked (editNoteId, editNoteBody)">
    			<input ng-model="editNoteId" placeholder="Note..." type="hidden"/>
         	<input ng-model="editNoteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" class="btn btn-primary" value="Save Edit" id="addNote-button">
+        	<input type="submit" class="btn btn-stickynotes" value="Save Edit" id="addNote-button">
    		</form>
     </div>
 </div>

@@ -119,15 +119,26 @@ notesApp.controller(
 
             $scope.tabSelected = function(boardID)
             {
-                $scope.currentBoardID = boardID;
-
-                if (boardID == null)
+                if (boardID != "newBoard")
                 {
+                    $scope.currentBoardID = boardID;
+
+                    if (boardID == null)
+                    {
+                        showNotesInView(boardNotes.privateBoard.notes);
+                        return;
+                    }
+                    getNotesForBoard(boardID);
+
+                }
+                else
+                {
+                    console.info("newBoard");
                     showNotesInView(boardNotes.privateBoard.notes);
                     return;
                 }
 
-                getNotesForBoard(boardID);
+                
 
             }
 
