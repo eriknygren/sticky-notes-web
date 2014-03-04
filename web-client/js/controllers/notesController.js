@@ -1,6 +1,6 @@
 notesApp.controller(
-    'NotesController', ['$scope', '$http', 'sessionService', 'safeApplyService',
-        function($scope, $http, sessionService, safeApplyService)
+    'NotesController', ['$scope', '$http', '$modal', 'sessionService', 'safeApplyService',
+        function($scope, $http, $modal, sessionService, safeApplyService)
         {
             var boardNotes = {
 
@@ -17,6 +17,32 @@ notesApp.controller(
 
             var sessionToken = sessionService.getSessionToken();
             initiateData();
+
+            var editNoteModalOptions = {
+                backdrop: false,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/editNote.html',
+                controller: 'EditNoteController'
+            }
+
+            var deleteNoteConfirmModalOptions = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/yesNo.html',
+                controller: 'YesNoController',
+                resolve: {
+                    title: function()
+                    {
+                        return 'Confirm Delete Note';
+                    },
+                    content: function()
+                    {
+                        return 'Are you sure you wanna delete this note?';
+                    }
+                }
+            };
 
             function initiateData()
             {
@@ -71,49 +97,70 @@ notesApp.controller(
                 //Clear Note TextBox
                 $scope.noteBody = "";
             }
+
             $scope.onEditClicked = function(index, noteBody)
             {
-
                 $scope.editNoteBody = noteBody; 
-                $scope.editNoteId = index; 
-               
-            }  
-            $scope.onEditSaveClicked = function(editNoteId, editNoteBody)
-            {
+                $scope.editNoteId = index;
 
-                //compare editnote to notes[index]
-                if(editNoteBody != $scope.notes[editNoteId].body)
-                {
-                    $scope.notes[editNoteId].body = editNoteBody;
+                var previousBody = $scope.notes[index].body;
 
-                   $.ajax({
-                        type: 'POST',
-                        url: 'http://stickyapi.alanedwardes.com/notes/edit',
-                        data: {'id' : $scope.notes[editNoteId].id, 'title' : '', 'body' : editNoteBody, 'token': sessionToken },
-                        success: function(notes) {
-                        }
-                    });
+                editNoteModalOptions.resolve = {
+                    note: function()
+                    {
+                        return $scope.notes[index];
+                    }
+                }
 
-                    $scope.editNoteBody = $scope.editNoteId = "";
-                    
-                } 
-            }
+                var editNoteModalInstance = $modal.open(editNoteModalOptions);
+
+                editNoteModalInstance.result.then(function (note) {
+
+                    if(previousBody != note.body)
+                    {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://stickyapi.alanedwardes.com/notes/edit',
+                            data: {'id' : note.id, 'title' : '', 'body' : note.body, 'token': sessionToken },
+                            success: function(notes) {
+
+                                console.log('Note edited');
+                            }
+                        });
+                    }
+
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
+            };
+
             $scope.onDeleteClicked = function(index)
             {
-                //Remove note from db
-                $.ajax({
-                        type: 'POST',
-                        url: 'http://stickyapi.alanedwardes.com/notes/delete',
-                        data: {'id' : $scope.notes[index].id,'token': sessionToken },
-                        success: function(notes) {
-                            console.info("Note : "+ $scope.notes[index].id + " - Delete");
+                var deleteNoteConfirmModalInstance = $modal.open(deleteNoteConfirmModalOptions);
 
-                            //Remove note from notes
-                            $scope.notes.splice(index,1);
-                            safeApplyService.apply($scope, $scope.notes);
-                        },
-                        error: errorHandler
+                deleteNoteConfirmModalInstance.result.then(function (isConfirmed) {
 
+                   if (isConfirmed)
+                   {
+                       //Remove note from db
+                       $.ajax({
+                           type: 'POST',
+                           url: 'http://stickyapi.alanedwardes.com/notes/delete',
+                           data: {'id' : $scope.notes[index].id,'token': sessionToken },
+                           success: function(notes) {
+                               console.info("Note : "+ $scope.notes[index].id + " - Delete");
+
+                               //Remove note from notes
+                               $scope.notes.splice(index,1);
+                               safeApplyService.apply($scope, $scope.notes);
+                           },
+                           error: errorHandler
+
+                       });
+                   }
+
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
                 });
             }
 

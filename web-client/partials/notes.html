@@ -14,15 +14,12 @@
     <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
     <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
         <div class="note-container">
-            <div class="note-body">
+            <div class="note-body" ng-click="onEditClicked($index, note.body)">
                 {{note.body}}
             </div>
-            <!--
             <div class="note-container-buttons">
-                <button ng-disabled="note.author.toString() !== userID" class="btn btn-primary btn-sm" ng-click="onEditClicked($index, note.body)">Edit</button>
-                <button ng-disabled="note.author.toString() !== userID" class="btn btn-delete btn-sm" ng-click="onDeleteClicked($index)">Delete</button>
+                <button ng-disabled="note.author.toString() !== userID" class="btn btn-delete btn-sm" ng-click="onDeleteClicked($index)"><span class="glyphicon glyphicon-remove"></span></button>
             </div>
-            -->
         </div>
     </div>
     <div class="addNote">
