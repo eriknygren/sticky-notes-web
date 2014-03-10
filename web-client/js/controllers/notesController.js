@@ -26,6 +26,14 @@ notesApp.controller(
                 controller: 'EditNoteController'
             }
 
+            var addNoteModalOptions = {
+                backdrop: false,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/addNote.html',
+                controller: 'AddNoteController'
+            }
+
             var deleteNoteConfirmModalOptions = {
                 backdrop: true,
                 keyboard: true,
@@ -80,11 +88,15 @@ notesApp.controller(
 
             $scope.onAddNoteClicked = function()
             {
-                //Push note to db
-                $.ajax({
+                var addNoteModalInstance = $modal.open(addNoteModalOptions);
+
+                addNoteModalInstance.result.then(function (noteToSave) {
+
+                    //Push note to db
+                    $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/save',
-                        data: {'body' : $scope.noteBody,'token': sessionToken, 'boardID': $scope.currentBoardID},
+                        data: {'body' : noteToSave.body,'token': sessionToken, 'boardID': $scope.currentBoardID},
                         success: function(note) {
                             console.info("Note posted");
 
@@ -93,16 +105,14 @@ notesApp.controller(
                             safeApplyService.apply($scope, $scope.notes);
                         },
                         error: errorHandler
+                    });
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
                 });
-                //Clear Note TextBox
-                $scope.noteBody = "";
             }
 
-            $scope.onEditClicked = function(index, noteBody)
+            $scope.onEditClicked = function(index)
             {
-                $scope.editNoteBody = noteBody; 
-                $scope.editNoteId = index;
-
                 var previousBody = $scope.notes[index].body;
 
                 editNoteModalOptions.resolve = {

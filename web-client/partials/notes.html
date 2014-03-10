@@ -14,7 +14,7 @@
     <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
     <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
         <div class="note-container">
-            <div class="note-body" ng-click="onEditClicked($index, note.body)">
+            <div class="note-body" ng-click="onEditClicked($index)">
                 {{note.body}}
             </div>
             <div class="note-container-buttons">
@@ -22,20 +22,8 @@
             </div>
         </div>
     </div>
-    <div class="addNote">
+    <div class="addNote" ng-click="onAddNoteClicked()">
         <p>+</p>
     </div>
     <div class="clear vertical-spacing"></div>
-    <div>
-		<form ng-submit="onAddNoteClicked()">
-        	<input ng-model="noteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" class="btn btn-stickynotes" value="Add Note" id="addNote-button">
-   		</form>
-        <div class="vertical-spacing"></div>
-   		<form ng-submit="onEditSaveClicked (editNoteId, editNoteBody)">
-   			<input ng-model="editNoteId" placeholder="Note..." type="hidden"/>
-        	<input ng-model="editNoteBody" placeholder="Note..." type="text"/>
-        	<input type="submit" class="btn btn-stickynotes" value="Save Edit" id="addNote-button">
-   		</form>
-    </div>
 </div>
