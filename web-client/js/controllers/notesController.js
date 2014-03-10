@@ -113,6 +113,11 @@ notesApp.controller(
 
             $scope.onEditClicked = function(index)
             {
+                if ($scope.notes[index].author.toString() !== $scope.userID)
+                {
+                    return;
+                }
+
                 var previousBody = $scope.notes[index].body;
 
                 editNoteModalOptions.resolve = {
