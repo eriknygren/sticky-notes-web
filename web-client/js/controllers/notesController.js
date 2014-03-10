@@ -131,7 +131,15 @@ notesApp.controller(
 
                 editNoteModalInstance.result.then(function (note) {
 
-                    if(previousBody != note.body)
+                    // If the user deleted the note in the modal
+                    // Otherwise proceed to edit it in the backend
+                    if (note.delete)
+                    {
+                        deleteNote(index);
+                        return;
+                    }
+
+                    if (previousBody != note.body)
                     {
                         $.ajax({
                             type: 'POST',
@@ -150,34 +158,23 @@ notesApp.controller(
                 });
             };
 
-            $scope.onDeleteClicked = function(index)
+            function deleteNote(index)
             {
-                var deleteNoteConfirmModalInstance = $modal.open(deleteNoteConfirmModalOptions);
+               //Remove note from db
+               $.ajax({
+                   type: 'POST',
+                   url: 'http://stickyapi.alanedwardes.com/notes/delete',
+                   data: {'id' : $scope.notes[index].id,'token': sessionToken },
+                   success: function(notes) {
+                       console.info("Note : "+ $scope.notes[index].id + " - Delete");
 
-                deleteNoteConfirmModalInstance.result.then(function (isConfirmed) {
+                       //Remove note from notes
+                       $scope.notes.splice(index,1);
+                       safeApplyService.apply($scope, $scope.notes);
+                   },
+                   error: errorHandler
 
-                   if (isConfirmed)
-                   {
-                       //Remove note from db
-                       $.ajax({
-                           type: 'POST',
-                           url: 'http://stickyapi.alanedwardes.com/notes/delete',
-                           data: {'id' : $scope.notes[index].id,'token': sessionToken },
-                           success: function(notes) {
-                               console.info("Note : "+ $scope.notes[index].id + " - Delete");
-
-                               //Remove note from notes
-                               $scope.notes.splice(index,1);
-                               safeApplyService.apply($scope, $scope.notes);
-                           },
-                           error: errorHandler
-
-                       });
-                   }
-
-                }, function () {
-                    console.log('Modal dismissed at: ' + new Date());
-                });
+               });
             }
 
             $scope.tabSelected = function(boardID)

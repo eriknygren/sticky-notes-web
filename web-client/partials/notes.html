@@ -17,9 +17,6 @@
             <div class="note-body" ng-click="onEditClicked($index)">
                 {{note.body}}
             </div>
-            <div class="note-container-buttons">
-                <button ng-disabled="note.author.toString() !== userID" title="Delete note" class="btn btn-delete btn-sm" ng-click="onDeleteClicked($index)"><span class="glyphicon glyphicon-remove"></span></button>
-            </div>
         </div>
     </div>
     <div class="addNote" ng-click="onAddNoteClicked()">
