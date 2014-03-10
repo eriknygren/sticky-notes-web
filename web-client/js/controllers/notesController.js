@@ -131,6 +131,7 @@ notesApp.controller(
 
                 }, function () {
                     console.log('Modal dismissed at: ' + new Date());
+                    $scope.notes[index].body = previousBody;
                 });
             };
 
