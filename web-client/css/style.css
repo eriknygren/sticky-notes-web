@@ -74,6 +74,12 @@
     color:white;
     padding-bottom: 30px;
 }
+
+#top-corner-buttons {
+    position: fixed;
+    top:35px;
+    right: 25px;
+}
 .note-container {
     position: relative;
     float: left;
