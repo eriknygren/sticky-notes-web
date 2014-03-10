@@ -2,6 +2,9 @@ notesApp.controller(
     'NotesController', ['$scope', '$http', '$modal', 'sessionService', 'safeApplyService',
         function($scope, $http, $modal, sessionService, safeApplyService)
         {
+            var NOT_AUTHOR_INFO_MODAL_TITLE = "Can't Edit Note";
+            var NOT_AUTHOR_INFO_MODAL_BODY = "You are not the author of this note, and can therefore not edit it.";
+
             var boardNotes = {
 
                 privateBoard: {},
@@ -34,22 +37,12 @@ notesApp.controller(
                 controller: 'AddNoteController'
             }
 
-            var deleteNoteConfirmModalOptions = {
+            var infoModalOptions = {
                 backdrop: true,
                 keyboard: true,
                 backdropClick: true,
-                templateUrl:  '../modals/yesNo.html',
-                controller: 'YesNoController',
-                resolve: {
-                    title: function()
-                    {
-                        return 'Confirm Delete Note';
-                    },
-                    content: function()
-                    {
-                        return 'Are you sure you wanna delete this note?';
-                    }
-                }
+                templateUrl:  '../modals/info.html',
+                controller: 'InfoController'
             };
 
             function initiateData()
@@ -115,6 +108,7 @@ notesApp.controller(
             {
                 if ($scope.notes[index].author.toString() !== $scope.userID)
                 {
+                    showInfoModal(NOT_AUTHOR_INFO_MODAL_TITLE, NOT_AUTHOR_INFO_MODAL_BODY);
                     return;
                 }
 
@@ -157,6 +151,22 @@ notesApp.controller(
                     $scope.notes[index].body = previousBody;
                 });
             };
+
+            function showInfoModal(title, body)
+            {
+                infoModalOptions.resolve = {
+                    title: function()
+                    {
+                        return title;
+                    },
+                    content: function()
+                    {
+                        return body;
+                    }
+                }
+
+                $modal.open(infoModalOptions);
+            }
 
             function deleteNote(index)
             {
