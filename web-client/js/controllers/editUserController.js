@@ -20,6 +20,25 @@ notesApp.controller(
                     showErrorText('Please fill in all fields');
                     return;
                 }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/user/editDetails',
+                    data: {'token': sessionService.getSessionToken(), 'firstName': firstName,
+                    'surname': surname, 'email': email},
+                    success: function(response) {
+
+                        user.firstName = firstName;
+                        user.surname = surname;
+                        user.email = email;
+                        sessionService.setLocalUser(user);
+                        showSuccessText('Details successfully updated');
+                    },
+                    error: function(response) {
+                        showErrorText(response.responseJSON.message);
+                    }
+
+                });
             }
 
             $scope.changePassword = function(oldPassword, password, password2)
@@ -43,6 +62,7 @@ notesApp.controller(
                 $scope.successText = text;
                 $scope.showSuccessText = true;
                 $scope.showErrorText = false;
+                safeApplyService.apply($scope);
             }
 
             function showErrorText(text)
@@ -50,5 +70,6 @@ notesApp.controller(
                 $scope.errorText = text;
                 $scope.showErrorText = true;
                 $scope.showSuccessText = false;
+                safeApplyService.apply($scope);
             }
         }]);
