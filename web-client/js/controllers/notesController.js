@@ -45,6 +45,24 @@ notesApp.controller(
                 controller: 'InfoController'
             };
 
+            var userSettingsModalOptions = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/editUser.html',
+                controller: 'EditUserController',
+                resolve: {
+                    sessionToken: function()
+                    {
+                        return sessionToken;
+                    },
+                    userID: function()
+                    {
+                        return $scope.userID;
+                    }
+                }
+            };
+
             function initiateData()
             {
                 //change to $http to use the angularjs http service, but it doesn't like CORS at the moment
@@ -152,41 +170,6 @@ notesApp.controller(
                 });
             };
 
-            function showInfoModal(title, body)
-            {
-                infoModalOptions.resolve = {
-                    title: function()
-                    {
-                        return title;
-                    },
-                    content: function()
-                    {
-                        return body;
-                    }
-                }
-
-                $modal.open(infoModalOptions);
-            }
-
-            function deleteNote(index)
-            {
-               //Remove note from db
-               $.ajax({
-                   type: 'POST',
-                   url: 'http://stickyapi.alanedwardes.com/notes/delete',
-                   data: {'id' : $scope.notes[index].id,'token': sessionToken },
-                   success: function(notes) {
-                       console.info("Note : "+ $scope.notes[index].id + " - Delete");
-
-                       //Remove note from notes
-                       $scope.notes.splice(index,1);
-                       safeApplyService.apply($scope, $scope.notes);
-                   },
-                   error: errorHandler
-
-               });
-            }
-
             $scope.tabSelected = function(boardID)
             {
                 if (boardID != "newBoard")
@@ -207,9 +190,11 @@ notesApp.controller(
                     showNotesInView(boardNotes.privateBoard.notes);
                     return;
                 }
+            }
 
-                
-
+            $scope.onUserSettingsClicked = function()
+            {
+               $modal.open(userSettingsModalOptions);
             }
 
             function getNotesForBoard(boardID)
@@ -258,6 +243,41 @@ notesApp.controller(
                 $scope.notes = notes;
                 //Refresh array in view
                 safeApplyService.apply($scope, $scope.notes);
+            }
+
+            function showInfoModal(title, body)
+            {
+                infoModalOptions.resolve = {
+                    title: function()
+                    {
+                        return title;
+                    },
+                    content: function()
+                    {
+                        return body;
+                    }
+                }
+
+                $modal.open(infoModalOptions);
+            }
+
+            function deleteNote(index)
+            {
+                //Remove note from db
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/notes/delete',
+                    data: {'id' : $scope.notes[index].id,'token': sessionToken },
+                    success: function(notes) {
+                        console.info("Note : "+ $scope.notes[index].id + " - Delete");
+
+                        //Remove note from notes
+                        $scope.notes.splice(index,1);
+                        safeApplyService.apply($scope, $scope.notes);
+                    },
+                    error: errorHandler
+
+                });
             }
 
             function errorHandler(data, status, headers, config)

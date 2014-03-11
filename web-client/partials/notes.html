@@ -1,30 +1,32 @@
-<div id="header">
-    <h1>My Notes</h1>
-</div>
-
-<div id="top-corner-buttons">
-    <button class="btn">My Account</button>
-</div>
-
 <div ng-controller="NotesController">
-    <div class="no-text-selection standard-cursor">
-        <tabset>
-            <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
-            <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
-            <tab ng-disabled="!canClickTabs" heading="+" select="tabSelected('newBoard')"></tab>
-        </tabset>
+    <div id="header">
+        <h1>My Notes</h1>
     </div>
-    <div class="vertical-spacing"></div>
-    <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
-    <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
-        <div class="note-container">
-            <div class="note-body" ng-click="onEditClicked($index)">
-                {{note.body}}
+
+    <div id="top-corner-buttons">
+        <button class="btn" ng-click="onUserSettingsClicked()">My Account</button>
+    </div>
+
+    <div >
+        <div class="no-text-selection standard-cursor">
+            <tabset>
+                <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
+                <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
+                <tab ng-disabled="!canClickTabs" heading="+" select="tabSelected('newBoard')"></tab>
+            </tabset>
+        </div>
+        <div class="vertical-spacing"></div>
+        <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
+        <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
+            <div class="note-container">
+                <div class="note-body" ng-click="onEditClicked($index)">
+                    {{note.body}}
+                </div>
             </div>
         </div>
+        <div class="addNote" ng-click="onAddNoteClicked()">
+            <p>+</p>
+        </div>
+        <div class="clear vertical-spacing"></div>
     </div>
-    <div class="addNote" ng-click="onAddNoteClicked()">
-        <p>+</p>
-    </div>
-    <div class="clear vertical-spacing"></div>
 </div>

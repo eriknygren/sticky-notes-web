@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h3>My Account</h3>
+</div>
+<div class="modal-body">
+    <div ng-show="currentView === 'edit_user'">
+    <h4>My Details</h4>
+    <form ng-submit="saveUserDetails()">
+        <p class="small-spacing">First name</p>
+        <input type="text" ng-model="firstName"/>
+        <p class="small-spacing">Surname</p>
+        <input type="text" ng-model="surname"/>
+        <p class="small-spacing">Email</p>
+        <input type="text" ng-model="email"/>
+        <div class="clear vertical-spacing"></div>
+        <input class="btn btn-stickynotes" type="submit" value="Save">
+    </form>
+    <div class="clear vertical-spacing"></div>
+    <a ng-click="currentView = 'edit_password'">Change Password >></a>
+    </div>
+    <div ng-show="currentView === 'edit_password'">
+        <h4>Change My Password</h4>
+        <form ng-submit="changePassword()">
+            <input type="text" ng-model="oldPassword" placeholder="Current password"/>
+            <div class="clear vertical-spacing"></div>
+            <input type="text" ng-model="password" placeholder="New password"/>
+            <div class="clear vertical-spacing"></div>
+            <input type="text" ng-model="password2" placeholder="Repeat new password"/>
+            <div class="clear vertical-spacing"></div>
+            <input class="btn btn-stickynotes" type="submit" value="Save">
+        </form>
+        <div class="clear vertical-spacing"></div>
+        <a ng-click="currentView = 'edit_user'"><< Back</a>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-click="close()" class="btn btn-stickynotes" >Close</button>
+</div>
