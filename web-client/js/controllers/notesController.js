@@ -187,7 +187,13 @@ notesApp.controller(
 
             $scope.onUserSettingsClicked = function()
             {
-               $modal.open(userSettingsModalOptions);
+               userSettingsModalOptions.resolve = {
+                    user: function() {
+                        return $scope.user;
+                    }
+                }
+
+                $modal.open(userSettingsModalOptions);
             }
 
             function getNotesForBoard(boardID)

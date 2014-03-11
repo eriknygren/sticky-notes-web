@@ -1,39 +1,54 @@
 notesApp.controller(
-    'EditUserController', ['$scope', '$modalInstance', 'safeApplyService', 'sessionService',
-        function($scope, $modalInstance, safeApplyService, sessionService)
+    'EditUserController', ['$scope', '$modalInstance', 'user', 'safeApplyService', 'sessionService',
+        function($scope, $modalInstance, user, safeApplyService, sessionService)
         {
-            $scope.isLoading = true;
+            $scope.showErrorText = false;
+            $scope.showSuccessText = false;
 
             $scope.currentView = 'edit_user';
 
-            initiate();
+            $scope.firstName = user.firstName;
+            $scope.surname = user.surname;
+            $scope.email = user.email;
 
-            function initiate()
+            $scope.saveUserDetails = function(firstName, surname, email)
             {
-                sessionService.getLocalUser(function(user)
+                if (!email || email === '' ||
+                    !surname || surname === '' ||
+                    !firstName || firstName === '')
                 {
-                    $scope.firstName = user.firstName;
-                    $scope.surname = user.surname;
-                    $scope.email = user.email;
-                    safeApplyService.apply($scope);
-
-                    $scope.isLoading = false;
-                });
+                    showErrorText('Please fill in all fields');
+                    return;
+                }
             }
 
-
-            $scope.saveUserDetails = function()
+            $scope.changePassword = function(oldPassword, password, password2)
             {
-
-            }
-
-            $scope.changePassword = function()
-            {
-
+                if (!oldPassword || oldPassword === '' ||
+                    !password || password === '' ||
+                    !password2 || password2 === '')
+                {
+                    showErrorText('Please fill in all fields');
+                    return;
+                }
             }
 
             $scope.close = function()
             {
                 $modalInstance.close();
+            }
+
+            function showSuccessText(text)
+            {
+                $scope.successText = text;
+                $scope.showSuccessText = true;
+                $scope.showErrorText = false;
+            }
+
+            function showErrorText(text)
+            {
+                $scope.errorText = text;
+                $scope.showErrorText = true;
+                $scope.showSuccessText = false;
             }
         }]);
