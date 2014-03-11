@@ -35,9 +35,16 @@ notesApp.controller(
                         showSuccessText('Details successfully updated');
                     },
                     error: function(response) {
-                        showErrorText(response.responseJSON.message);
-                    }
 
+                        if (typeof response.responseJSON.message !== 'undefined')
+                        {
+                            showErrorText(response.responseJSON.message);
+                        }
+                        else
+                        {
+                            showErrorText('Error updating user details');
+                        }
+                    }
                 });
             }
 
@@ -50,6 +57,34 @@ notesApp.controller(
                     showErrorText('Please fill in all fields');
                     return;
                 }
+
+                if (password !== password2)
+                {
+                    showErrorText('New passwords do not match');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/user/editPassword',
+                    data: {'token': sessionService.getSessionToken(), 'password': password,
+                        'password2': password2, 'oldPassword': oldPassword},
+                    success: function(response) {
+
+                        showSuccessText('Password successfully changed');
+                    },
+                    error: function(response) {
+
+                        if (typeof response.responseJSON.message !== 'undefined')
+                        {
+                            showErrorText(response.responseJSON.message);
+                        }
+                        else
+                        {
+                            showErrorText('Error changing password');
+                        }
+                    }
+                });
             }
 
             $scope.close = function()
