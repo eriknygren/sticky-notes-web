@@ -1,6 +1,6 @@
 notesApp.controller(
-    'EditUserController', ['$scope', '$modalInstance', 'sessionToken', 'userID', 'safeApplyService',
-        function($scope, $modalInstance, sessionToken, userID, safeApplyService)
+    'EditUserController', ['$scope', '$modalInstance', 'safeApplyService', 'sessionService',
+        function($scope, $modalInstance, safeApplyService, sessionService)
         {
             $scope.isLoading = true;
 
@@ -10,25 +10,16 @@ notesApp.controller(
 
             function initiate()
             {
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://stickyapi.alanedwardes.com/user/getUser',
-                    data: {'token': sessionToken, 'id': userID },
-                    success: function(user) {
+                sessionService.getLocalUser(function(user)
+                {
+                    $scope.firstName = user.firstName;
+                    $scope.surname = user.surname;
+                    $scope.email = user.email;
+                    safeApplyService.apply($scope);
 
-                        $scope.firstName = user.firstName;
-                        $scope.surname = user.surname;
-                        $scope.email = user.email;
-                        safeApplyService.apply($scope);
-
-                        $scope.isLoading = false;
-                    },
-                    error: function(data) {
-                        console.log(data);
-                    }
-            });
+                    $scope.isLoading = false;
+                });
             }
-
 
 
             $scope.saveUserDetails = function()

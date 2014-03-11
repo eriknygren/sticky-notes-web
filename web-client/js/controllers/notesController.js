@@ -11,11 +11,14 @@ notesApp.controller(
                 sharedBoards: []
             };
 
+            sessionService.getLocalUser(function(user)
+            {
+                safeApplyService.apply($scope,$scope.user = user);
+            });
 
             $scope.notes = [];
             $scope.boards = [];
             $scope.currentBoardID = null;
-            $scope.userID = sessionService.getUserID();
             $scope.canClickTabs = true;
 
             var sessionToken = sessionService.getSessionToken();
@@ -50,17 +53,7 @@ notesApp.controller(
                 keyboard: true,
                 backdropClick: true,
                 templateUrl:  '../modals/editUser.html',
-                controller: 'EditUserController',
-                resolve: {
-                    sessionToken: function()
-                    {
-                        return sessionToken;
-                    },
-                    userID: function()
-                    {
-                        return $scope.userID;
-                    }
-                }
+                controller: 'EditUserController'
             };
 
             function initiateData()
@@ -124,7 +117,7 @@ notesApp.controller(
 
             $scope.onEditClicked = function(index)
             {
-                if ($scope.notes[index].author.toString() !== $scope.userID)
+                if ($scope.notes[index].author !== $scope.user.id)
                 {
                     showInfoModal(NOT_AUTHOR_INFO_MODAL_TITLE, NOT_AUTHOR_INFO_MODAL_BODY);
                     return;

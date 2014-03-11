@@ -17,7 +17,7 @@ notesApp.controller(
                     success: function(response) {
 
                         sessionService.setSessionToken(response.session.id);
-                        sessionService.setUserID(response.user.id);
+                        sessionService.setLocalUser(response.user);
 
                         $location.path('/notes');
 
