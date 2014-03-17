@@ -4,6 +4,7 @@
     </div>
 
     <div id="top-corner-buttons">
+        <button class="btn btn-success" ng-click="onAddBoardClicked()">Add board</button>
         <button class="btn btn-stickynotes" ng-click="onUserSettingsClicked()">My Account</button>
     </div>
 
@@ -12,7 +13,6 @@
             <tabset>
                 <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
                 <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
-                <tab ng-disabled="!canClickTabs" heading="+" select="tabSelected('newBoard')"></tab>
             </tabset>
         </div>
         <div class="vertical-spacing"></div>

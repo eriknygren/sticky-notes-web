@@ -42,6 +42,14 @@ notesApp.controller(
                 controller: 'AddNoteController'
             }
 
+            var addBoardModalOptions = {
+                backdrop: false,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/addBoard.html',
+                controller: 'AddBoardController'
+            }
+
             var infoModalOptions = {
                 backdrop: true,
                 keyboard: true,
@@ -185,24 +193,60 @@ notesApp.controller(
 
             $scope.tabSelected = function(boardID)
             {
-                if (boardID != "newBoard")
-                {
-                    $scope.currentBoardID = boardID;
+                $scope.currentBoardID = boardID;
 
-                    if (boardID == null)
-                    {
-                        showNotesInView(boardNotes.privateBoard.notes);
-                        return;
-                    }
-                    getNotesForBoard(boardID);
-
-                }
-                else
+                if (boardID == null)
                 {
-                    console.info("newBoard");
                     showNotesInView(boardNotes.privateBoard.notes);
                     return;
                 }
+                getNotesForBoard(boardID);
+            }
+
+            $scope.onAddBoardClicked = function()
+            {
+                var addBoardModalInstance = $modal.open(addBoardModalOptions);
+
+                addBoardModalInstance.result.then(function (boardToSave) {
+
+                    //Push board to db
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://stickyapi.alanedwardes.com/boards/save',
+                        data: {'name' : boardToSave.name,'token': sessionToken},
+                        success: function(board) {
+
+
+                            /*
+                            There's a bug in angular bootstrap UI that doesn't
+                            allow us to update a dynamic tabset, so lets do something
+                            real ugly for now.
+
+                            boardNotes.sharedBoards.push(board);
+
+                            $scope.boards.push(board);
+                            */
+                            location.reload();
+                        },
+                        error: function(response) {
+
+                            var errorMessage = "";
+
+                            if (typeof response.responseJSON.message !== 'undefined')
+                            {
+                                errorMessage = response.responseJSON.message;
+                            }
+                            else
+                            {
+                                errorMessage = "Error adding board";
+                            }
+
+                            showInfoModal('Error', errorMessage);
+                        }
+                    });
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
             }
 
             $scope.onDeleteBoardClicked = function()
