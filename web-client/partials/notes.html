@@ -17,6 +17,7 @@
         </div>
         <div class="vertical-spacing"></div>
         <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
+        <button class="btn btn-delete pull-right" ng-show="currentBoardID != null" ng-click="onDeleteBoardClicked()">Delete this board</button>
         <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
             <div class="note-container">
                 <div class="note-body" ng-click="onEditClicked($index)">

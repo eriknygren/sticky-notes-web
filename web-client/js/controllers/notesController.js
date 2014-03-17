@@ -4,6 +4,8 @@ notesApp.controller(
         {
             var NOT_AUTHOR_INFO_MODAL_TITLE = "Can't Edit Note";
             var NOT_AUTHOR_INFO_MODAL_BODY = "You are not the author of this note, and can therefore not edit it.";
+            var BOARD_NOT_AUTHOR_INFO_MODAL_TITLE = "Can't Delete Board";
+            var BOARD_NOT_AUTHOR_INFO_MODAL_BODY = "You are not the owner of this board, and can therefore not delete it.";
 
             var boardNotes = {
 
@@ -54,6 +56,24 @@ notesApp.controller(
                 backdropClick: true,
                 templateUrl:  '../modals/editUser.html',
                 controller: 'EditUserController'
+            };
+
+            var deleteBoardConfirmModalOptions = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/yesNo.html',
+                controller: 'YesNoController',
+                resolve: {
+                    title: function()
+                    {
+                        return 'Confirm Delete Board';
+                    },
+                    content: function()
+                    {
+                        return 'Are you sure you wanna delete this board?';
+                    }
+                }
             };
 
             function initiateData()
@@ -185,6 +205,37 @@ notesApp.controller(
                 }
             }
 
+            $scope.onDeleteBoardClicked = function()
+            {
+                var boardID = $scope.currentBoardID;
+
+                if (!boardID)
+                {
+                    return;
+                }
+
+                var board = getBoard(boardID);
+
+                if (board.owner_user_id !== $scope.user.id)
+                {
+                    showInfoModal(BOARD_NOT_AUTHOR_INFO_MODAL_TITLE, BOARD_NOT_AUTHOR_INFO_MODAL_BODY);
+                    return;
+                }
+
+                var deleteBoardConfirmModalInstance = $modal.open(deleteBoardConfirmModalOptions);
+
+                deleteBoardConfirmModalInstance.result.then(function (isConfirmed) {
+
+                    if (isConfirmed)
+                    {
+                       deleteBoard(boardID);
+                    }
+
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
+            }
+
             $scope.onUserSettingsClicked = function()
             {
                userSettingsModalOptions.resolve = {
@@ -277,6 +328,64 @@ notesApp.controller(
                     error: errorHandler
 
                 });
+            }
+
+            function deleteBoard(boardID)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/boards/delete',
+                    data: {'id' : boardID,'token': sessionToken },
+                    success: function(response) {
+
+                        deleteBoardFromScopeAndCache(boardID);
+
+                    },
+                    error: function(response) {
+
+                        if (typeof response.responseJSON.message !== 'undefined')
+                        {
+                            console.log(response.responseJSON.message);
+                        }
+                        else
+                        {
+                            console.log('Error updating user details');
+                        }
+                    }
+
+                });
+            }
+
+            function deleteBoardFromScopeAndCache(boardID)
+            {
+                for (var i = 0; i < boardNotes.sharedBoards.length; i++)
+                {
+                    if (boardNotes.sharedBoards[i].id == boardID)
+                    {
+                        boardNotes.sharedBoards.splice(i,1);
+                        break;
+                    }
+                }
+
+                for (var i2 = 0; i2 < $scope.boards.length; i2++)
+                {
+                    if ($scope.boards[i2].id == boardID)
+                    {
+                        $scope.boards.splice(i2,1);
+                        break;
+                    }
+                }
+            }
+
+            function getBoard(boardID)
+            {
+                for (var i = 0; i < boardNotes.sharedBoards.length; i++)
+                {
+                    if (boardNotes.sharedBoards[i].id == boardID)
+                    {
+                        return boardNotes.sharedBoards[i];
+                    }
+                }
             }
 
             function errorHandler(data, status, headers, config)
