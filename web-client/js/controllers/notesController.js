@@ -50,6 +50,14 @@ notesApp.controller(
                 controller: 'AddBoardController'
             }
 
+            var addUserToBoardModalOptions = {
+                backdrop: false,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/addUserToBoard.html',
+                controller: 'AddUserToBoardController'
+            }
+
             var infoModalOptions = {
                 backdrop: true,
                 keyboard: true,
@@ -289,6 +297,21 @@ notesApp.controller(
                 }
 
                 $modal.open(userSettingsModalOptions);
+            }
+
+            $scope.onAddUserToBoardClicked = function()
+            {
+                addUserToBoardModalOptions.resolve = {
+                    user: function() {
+                        return $scope.user;
+                    },
+                    boardID: function() {
+                        return $scope.currentBoardID;
+                    }
+                }
+
+                $modal.open(addUserToBoardModalOptions);
+
             }
 
             function getNotesForBoard(boardID)
