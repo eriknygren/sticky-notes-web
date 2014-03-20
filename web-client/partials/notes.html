@@ -18,6 +18,7 @@
         <div class="vertical-spacing"></div>
         <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
         <div class="pull-right">
+            <button class="btn" ng-show="currentBoardID != null" ng-click="onBoardInfoClicked()">Board info</button>
             <button class="btn btn-stickynotes" ng-show="currentBoardID != null" ng-click="onAddUserToBoardClicked()">Add user to board</button>
             <button class="btn btn-delete" ng-show="currentBoardID != null" ng-click="onDeleteBoardClicked()">Delete this board</button>
         </div>

@@ -22,6 +22,7 @@ notesApp.controller(
             $scope.boards = [];
             $scope.currentBoardID = null;
             $scope.canClickTabs = true;
+            $scope.canClickBoardInfo = true;
 
             var sessionToken = sessionService.getSessionToken();
             initiateData();
@@ -311,6 +312,39 @@ notesApp.controller(
                 }
 
                 $modal.open(addUserToBoardModalOptions);
+
+            }
+
+            $scope.onBoardInfoClicked = function()
+            {
+                $scope.canClickBoardInfo = false;
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/board/getUsers',
+                    data: {'token': sessionToken, 'id': $scope.currentBoardID },
+                    success: function(data) {
+
+                        var userInfo = [];
+
+                        for (var i = 0; i < data.users.length; i++)
+                        {
+                            var user = data.users[i];
+                            var infoMessage = user.firstName + " " + user.surname +
+                                " (" + user.email + ")"
+
+                            userInfo.push(infoMessage);
+                        }
+
+                        showInfoModal("Users Connected to Board", userInfo);
+
+                        $scope.canClickBoardInfo = true;
+                    },
+                    error: function(data) {
+                        $scope.canClickBoardInfo = true;
+                        console.log(data);
+                    }
+                });
 
             }
 

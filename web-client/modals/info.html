@@ -2,7 +2,10 @@
     <h3>{{ title }}</h3>
 </div>
 <div class="modal-body">
-    <p>{{ content }}</p>
+    <p ng-show="displayString">{{ string }}</p>
+    <div ng-show="displayArray" ng-repeat="entry in array">
+        <p>{{ entry }}</p>
+    </div>
 </div>
 <div class="modal-footer">
     <button ng-click="ok()" class="btn">Ok</button>
