@@ -18,11 +18,12 @@
         <div class="vertical-spacing"></div>
         <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
         <div class="pull-right">
-            <button class="btn" ng-show="currentBoardID != null" ng-click="onBoardInfoClicked()">Board info</button>
-            <button class="btn btn-stickynotes" ng-show="currentBoardID != null" ng-click="onAddUserToBoardClicked()">Add user to board</button>
-            <button class="btn btn-delete" ng-show="currentBoardID != null" ng-click="onDeleteBoardClicked()">Delete this board</button>
+            <button class="btn" ng-show="currentBoard.id != null" ng-click="onBoardInfoClicked()">Board info</button>
+            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null" ng-click="onAddUserToBoardClicked()">Add user to board</button>
+            <button class="btn btn-delete" ng-show="currentBoard.id != null && currentBoard.owner_user_id == user.id" ng-click="onDeleteBoardClicked()">Delete this board</button>
+            <button class="btn btn-delete" ng-show="currentBoard.id != null && currentBoard.owner_user_id != user.id" ng-click="onLeaveBoardClicked()">Leave this board</button>
         </div>
-        <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoardID}">
+        <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoard.id}">
             <div class="note-container">
                 <div class="note-body" ng-click="onEditClicked($index)">
                     {{note.body}}

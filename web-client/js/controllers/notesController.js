@@ -4,8 +4,6 @@ notesApp.controller(
         {
             var NOT_AUTHOR_INFO_MODAL_TITLE = "Can't Edit Note";
             var NOT_AUTHOR_INFO_MODAL_BODY = "You are not the author of this note, and can therefore not edit it.";
-            var BOARD_NOT_AUTHOR_INFO_MODAL_TITLE = "Can't Delete Board";
-            var BOARD_NOT_AUTHOR_INFO_MODAL_BODY = "You are not the owner of this board, and can therefore not delete it.";
 
             var boardNotes = {
 
@@ -20,7 +18,7 @@ notesApp.controller(
 
             $scope.notes = [];
             $scope.boards = [];
-            $scope.currentBoardID = null;
+            $scope.currentBoard = null;
             $scope.canClickTabs = true;
             $scope.canClickBoardInfo = true;
 
@@ -93,6 +91,24 @@ notesApp.controller(
                 }
             };
 
+            var leaveBoardConfirmModalOptions = {
+                backdrop: true,
+                keyboard: true,
+                backdropClick: true,
+                templateUrl:  '../modals/yesNo.html',
+                controller: 'YesNoController',
+                resolve: {
+                    title: function()
+                    {
+                        return 'Confirm Leave Board';
+                    },
+                    content: function()
+                    {
+                        return 'Are you sure you wanna leave this board?';
+                    }
+                }
+            };
+
             function initiateData()
             {
                 //change to $http to use the angularjs http service, but it doesn't like CORS at the moment
@@ -137,7 +153,7 @@ notesApp.controller(
                     $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/save',
-                        data: {'body' : noteToSave.body,'token': sessionToken, 'boardID': $scope.currentBoardID},
+                        data: {'body' : noteToSave.body,'token': sessionToken, 'boardID': $scope.currentBoard.id},
                         success: function(note) {
                             console.info("Note posted");
 
@@ -202,7 +218,7 @@ notesApp.controller(
 
             $scope.tabSelected = function(boardID)
             {
-                $scope.currentBoardID = boardID;
+                $scope.currentBoard = getBoard(boardID);
 
                 if (boardID == null)
                 {
@@ -260,20 +276,7 @@ notesApp.controller(
 
             $scope.onDeleteBoardClicked = function()
             {
-                var boardID = $scope.currentBoardID;
-
-                if (!boardID)
-                {
-                    return;
-                }
-
-                var board = getBoard(boardID);
-
-                if (board.owner_user_id !== $scope.user.id)
-                {
-                    showInfoModal(BOARD_NOT_AUTHOR_INFO_MODAL_TITLE, BOARD_NOT_AUTHOR_INFO_MODAL_BODY);
-                    return;
-                }
+                var boardID = $scope.currentBoard.id;
 
                 var deleteBoardConfirmModalInstance = $modal.open(deleteBoardConfirmModalOptions);
 
@@ -282,6 +285,24 @@ notesApp.controller(
                     if (isConfirmed)
                     {
                        deleteBoard(boardID);
+                    }
+
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
+            }
+
+            $scope.onLeaveBoardClicked = function()
+            {
+                var boardID = $scope.currentBoard.id;
+
+                var leaveBoardConfirmModalInstance = $modal.open(leaveBoardConfirmModalOptions);
+
+                leaveBoardConfirmModalInstance.result.then(function (isConfirmed) {
+
+                    if (isConfirmed)
+                    {
+                        leaveBoard(boardID);
                     }
 
                 }, function () {
@@ -307,7 +328,7 @@ notesApp.controller(
                         return $scope.user;
                     },
                     boardID: function() {
-                        return $scope.currentBoardID;
+                        return $scope.currentBoard.id;
                     }
                 }
 
@@ -322,7 +343,7 @@ notesApp.controller(
                 $.ajax({
                     type: 'POST',
                     url: 'http://stickyapi.alanedwardes.com/board/getUsers',
-                    data: {'token': sessionToken, 'id': $scope.currentBoardID },
+                    data: {'token': sessionToken, 'id': $scope.currentBoard.id },
                     success: function(data) {
 
                         var userInfo = [];
@@ -431,6 +452,32 @@ notesApp.controller(
                 });
             }
 
+            function leaveBoard(boardID)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://stickyapi.alanedwardes.com/boards/leave',
+                    data: {'id' : boardID,'token': sessionToken },
+                    success: function(response) {
+
+                        deleteBoardFromScopeAndCache(boardID);
+
+                    },
+                    error: function(response) {
+
+                        if (typeof response.responseJSON.message !== 'undefined')
+                        {
+                            console.log(response.responseJSON.message);
+                        }
+                        else
+                        {
+                            console.log('Error leaving board details');
+                        }
+                    }
+
+                });
+            }
+
             function deleteBoard(boardID)
             {
                 $.ajax({
@@ -450,7 +497,7 @@ notesApp.controller(
                         }
                         else
                         {
-                            console.log('Error updating user details');
+                            console.log('Error deleting board');
                         }
                     }
 
