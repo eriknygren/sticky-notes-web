@@ -351,7 +351,7 @@ notesApp.controller(
                         for (var i = 0; i < data.users.length; i++)
                         {
                             var user = data.users[i];
-                            var infoMessage = user.firstName + " " + user.surname +
+                            var infoMessage = user.first_name + " " + user.surname +
                                 " (" + user.email + ")"
 
                             userInfo.push(infoMessage);

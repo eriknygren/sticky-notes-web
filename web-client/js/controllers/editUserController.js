@@ -7,7 +7,7 @@ notesApp.controller(
 
             $scope.currentView = 'edit_user';
 
-            $scope.firstName = user.firstName;
+            $scope.firstName = user.first_name;
             $scope.surname = user.surname;
             $scope.email = user.email;
 
@@ -28,7 +28,7 @@ notesApp.controller(
                     'surname': surname, 'email': email},
                     success: function(response) {
 
-                        user.firstName = firstName;
+                        user.first_name = firstName;
                         user.surname = surname;
                         user.email = email;
                         sessionService.setLocalUser(user);
