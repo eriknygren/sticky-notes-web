@@ -151,6 +151,11 @@ p.small-spacing
     color:white;
 }
 
+.modal-input
+{
+    width: 200px;
+}
+
 .add-note-input
 {
     width: 350px;
