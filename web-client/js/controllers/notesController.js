@@ -149,11 +149,13 @@ notesApp.controller(
 
                 addNoteModalInstance.result.then(function (noteToSave) {
 
+                    var currentBoardID = (typeof $scope.currentBoard == 'undefined') ? null : $scope.currentBoard.id;
+
                     //Push note to db
                     $.ajax({
                         type: 'POST',
                         url: 'http://stickyapi.alanedwardes.com/notes/save',
-                        data: {'body' : noteToSave.body,'token': sessionToken, 'boardID': $scope.currentBoard.id},
+                        data: {'title': noteToSave.title, 'body': noteToSave.body,'token': sessionToken, 'boardID': currentBoardID},
                         success: function(note) {
                             console.info("Note posted");
 

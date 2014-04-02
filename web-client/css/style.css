@@ -1,3 +1,7 @@
+textarea {
+    resize: none;
+}
+
 p.small-spacing
 {
     margin-bottom: 0.1em;
@@ -145,6 +149,11 @@ p.small-spacing
 .white-text
 {
     color:white;
+}
+
+.add-note-input
+{
+    width: 350px;
 }
 
 .btn-stickynotes
