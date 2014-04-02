@@ -101,10 +101,17 @@ p.small-spacing
     border: 2px solid #0b6c98;  
     cursor: pointer;
 }
+.note-title{
+    width: 136px;
+    height: 20px;
+    border-bottom: 1px solid #000000;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    display: block
+}
 .note-body{
-    width: 148px;
-    height: 148px;
-    padding-bottom: 50px;
+    width: 136px;
+    height: 116px;
     overflow:hidden;
     text-overflow: ellipsis;
     display: block

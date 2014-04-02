@@ -25,6 +25,9 @@
         </div>
         <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoard.id}">
             <div class="note-container">
+                <div class="note-title">
+                    <strong>{{note.title}}</strong>
+                </div>
                 <div class="note-body" ng-click="onEditClicked($index)">
                     {{note.body}}
                 </div>
