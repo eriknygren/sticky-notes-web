@@ -12,7 +12,7 @@
             <tabset>
                 <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
                 <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
-                 <tab ng-click="onAddBoardClicked()" heading="+">/tab>
+                 <tab ng-click="onAddBoardClicked()" heading="+"></tab>
             </tabset>
 
         </div>
