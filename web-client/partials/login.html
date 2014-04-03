@@ -1,9 +1,31 @@
-<div ng-controller="LoginController" id="LoginContain">
-	<h1>Welcome to Sticky Notes</h1>
-	<p> Enter your email address and password below to login.</p>
-	<form ng-submit="onLoginClicked()">
-        <input ng-model="username" placeholder="Username" type="text"/>
-        <input ng-model="password" placeholder="Password" type="password"/>
-        <input class="btn btn-stickynotes" type="submit" value="Log in" id="login-button">
-    </form>
+<div ng-controller="LoginController">
+	<div id="LoginContain"  collapse="isLoginCollapsed">
+		<h1>Welcome to Sticky Notes</h1>
+		<p> Enter your email address and password below to login.</p>
+		<form ng-submit="onLoginClicked()">
+	        <input ng-model="username" placeholder="Username" type="text"/>
+	        <input ng-model="password" placeholder="Password" type="password"/>
+	        <input class="btn btn-stickynotes" type="submit" value="Log in" id="login-button">
+	    </form>
+	    <a ng-click="onHide()"> Register? </a>
+	</div>
+	<div class="link" id="RegisterContain"  collapse="isRegisterCollapsed" >
+		<h1>Register</h1>
+		<form name="form" class="css-form" novalidate>
+  			<input type="text" ng-model="user.firstName" ng-change="onChange('first', user.firstName )" placeholder="First Name" name="uFirst" required />
+  			<input type="text" ng-model="user.lastName" ng-change="onChange('last', user.lastName )" placeholder="Surname" name="uSurname" required />
+  			
+  			<input type="text" ng-model="user.email" ng-change="onChange('email', user.email )" placeholder="Email" name="uEmail" required />
+      		<input type="password" ng-model="user.pwd1" ng-change="onChange('pwd1', user.pwd1)" placeholder="Password" name="uPwd1" required/>
+      		<input type="password" ng-model="user.pwd2" ng-change="onChange('pwd2', user.pwd2)" placeholder="Confirm Password" name="uPwd2" required/>
+   	 		
+    		
+    		<span> Agree to our terms and conditions?</span>
+    		<input type="checkbox" ng-model="user.agree" ng-change="onChange('checkbox', user.agree)"name="userAgree" required />
+  
+ 		   <button type="submit" class="btn btn-stickynotes" ng-click="onRegisterClicked(user.firstName, user.lastName, user.email, user.pwd1)"
+            ng-disabled="isDisabled" >Create Account</button>
+  		</form>
+	    <a ng-click="onHide()"> Already a User? </a>
+	</div>
 </div>

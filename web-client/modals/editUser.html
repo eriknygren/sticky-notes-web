@@ -1,5 +1,8 @@
 <div class="modal-header">
     <h3 class="white-text">My Account</h3>
+     <button ng-click="close()" class="btn btn-lightBlue" >
+            <img id="closeBtn" src="../images/closeIcon.png">
+        </button>
 </div>
 <div class="modal-body">
     <div ng-show="currentView === 'edit_user'">
@@ -12,10 +15,10 @@
         <p class="small-spacing">Email</p>
         <input type="text" ng-model="email"/>
         <div class="clear vertical-spacing"></div>
-        <input class="btn btn-stickynotes" type="submit" value="Save">
+        <input class="btn btn-lightBlue" type="submit" value="Save">
     </form>
     <div class="clear vertical-spacing"></div>
-    <a ng-click="currentView = 'edit_password'">Change Password >></a>
+    <a  class="whiteText" ng-click="currentView = 'edit_password'">Change Password >></a>
     </div>
     <div ng-show="currentView === 'edit_password'">
         <h4>Change My Password</h4>
@@ -26,14 +29,14 @@
             <div class="clear vertical-spacing"></div>
             <input type="password" ng-model="password2" placeholder="Repeat new password"/>
             <div class="clear vertical-spacing"></div>
-            <input class="btn btn-stickynotes" type="submit" value="Save">
+            <input class="btn btn-lightBlue" type="submit" value="Save">
         </form>
         <div class="clear vertical-spacing"></div>
-        <a ng-click="currentView = 'edit_user'"><< Back</a>
+        <a class="whiteText"  ng-click="currentView = 'edit_user'"><< Back</a>
     </div>
     <p ng-show="showErrorText" class="text-error">{{ errorText }}</p>
     <p ng-show="showSuccessText" class="text-success">{{ successText }}</p>
 </div>
 <div class="modal-footer">
-    <button ng-click="close()" class="btn btn-stickynotes" >Close</button>
+
 </div>

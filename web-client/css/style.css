@@ -1,12 +1,24 @@
 textarea {
     resize: none;
 }
-
+h1
+{
+    color:white !important;
+    margin-bottom: 30px !important;
+}
 p.small-spacing
 {
     margin-bottom: 0.1em;
 }
-
+.whiteText
+{
+    color:white;
+}
+.whiteText:hover
+{
+    color:white;
+    cursor: pointer;
+}
 .no-text-selection
 {
     -webkit-user-select: none; /* Chrome/Safari */
@@ -47,7 +59,7 @@ p.small-spacing
     border-left: 1px solid;
     border-right: 1px solid;*/
 }
-#LoginContain
+#LoginContain, #RegisterContain
 {
     position:absolute;
     margin:0 auto;
@@ -56,11 +68,7 @@ p.small-spacing
     left:50%;
     margin-left:-125px;
     margin-top: -170px;
-}
-#LoginContain h1
-{
-    color:white;
-    margin-bottom: 30px;
+    background-color: #33B5E5;
 }
 #LoginContain p
 {
@@ -68,7 +76,7 @@ p.small-spacing
     margin-bottom: 10px;
     font-size: 13px;
 }
-#LoginContain input
+#LoginContain input, #RegisterContain input, #RegisterContain button
 {
     width:100%;
     margin-bottom: 10px;
@@ -87,6 +95,15 @@ p.small-spacing
     position: fixed;
     top:35px;
     right: 25px;
+}
+.tabBorder
+{
+    background-color: #33B5E5;
+    border-bottom: 10px #0b6c98 solid !important;
+}
+.background
+{
+    background-color: #0b6c98 ;
 }
 .note-container {
     position: relative;
@@ -137,7 +154,7 @@ p.small-spacing
     height: 150px;
     padding-left: 45px;
     overflow: hidden;
-    color:#0b6c98;
+    color:#333;
     font-size: 100px;
     cursor: pointer;
 }
@@ -166,6 +183,11 @@ p.small-spacing
   color: white;
   background-color: #0b6c98;
 }
+.btn-lightBlue
+{
+  color: white;
+  background-color: #33B5E5;
+}
 .btn-delete
 {
   color: white;
@@ -188,4 +210,33 @@ p.small-spacing
 {
     color:white !important;
     background-color: #0b6c98 !important;
+}
+#mainBody
+{
+    padding: 0px 10px;
+}
+.boardIcon
+{
+    height:30px;
+    margin: -5px -10px;
+    padding:0px;
+    opacity: 0.6;
+}
+.boardIcon:hover
+{
+    opacity: 1;
+}
+.modal-body, .modal-footer
+{
+    background-color: #0b6c98 ;
+    margin-top:0px !important;
+    border-top:0px white solid !important;
+
+}
+#closeBtn
+{
+    height:25px;
+    position:relative;
+    top:-43px;
+    left:530px;
 }

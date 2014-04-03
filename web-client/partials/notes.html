@@ -1,41 +1,52 @@
 <div ng-controller="NotesController">
     <div id="header">
-        <h1>{{user.first_name}}'s Notes</h1>
+        <h1>{{user.first_name}}'s Notes</h1> 
     </div>
 
     <div id="top-corner-buttons">
-        <button class="btn btn-success" ng-click="onAddBoardClicked()">Add board</button>
         <button class="btn btn-stickynotes" ng-click="onUserSettingsClicked()">My Account</button>
     </div>
 
-    <div >
-        <div class="no-text-selection standard-cursor">
+    <div class="background">
+        <div class="no-text-selection standard-cursor tabBorder">
             <tabset>
                 <tab ng-disabled="!canClickTabs" heading="Private Notes" select="tabSelected(null)"></tab>
                 <tab ng-disabled="!canClickTabs" ng-repeat="board in boards" heading="{{ board.name}}" select="tabSelected(board.id)"></tab>
+                 <tab ng-click="onAddBoardClicked()" heading="+">/tab>
             </tabset>
+
         </div>
-        <div class="vertical-spacing"></div>
+        <div id="mainBody">
+        <div class="vertical-spacing background"></div>
         <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
-        <div class="pull-right">
-            <button class="btn" ng-show="currentBoard.id != null" ng-click="onBoardInfoClicked()">Board info</button>
-            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null" ng-click="onAddUserToBoardClicked()">Add user to board</button>
-            <button class="btn btn-delete" ng-show="currentBoard.id != null && currentBoard.owner_user_id == user.id" ng-click="onDeleteBoardClicked()">Delete this board</button>
-            <button class="btn btn-delete" ng-show="currentBoard.id != null && currentBoard.owner_user_id != user.id" ng-click="onLeaveBoardClicked()">Leave this board</button>
+        <div class="pull-right background">
+            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null" ng-click="onBoardInfoClicked()">
+                <img class="boardIcon" src="../images/infoIcon.png">
+                </button>
+            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null" ng-click="onAddUserToBoardClicked()">
+                <img class="boardIcon" src="../images/addUser.png">
+            </button>
+            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null && currentBoard.owner_user_id == user.id" ng-click="onDeleteBoardClicked()">
+                <img title="Delete Board"class="boardIcon" src="../images/deleteIcon.png">
+            </button>
+            <button class="btn btn-stickynotes" ng-show="currentBoard.id != null && currentBoard.owner_user_id != user.id" ng-click="onLeaveBoardClicked()">
+                <img title="Leave Board"class="boardIcon" src="../images/leaveBoard.png">
+            </button>
         </div>
-        <div ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoard.id}">
-            <div class="note-container">
-                <div class="note-title">
-                    <strong>{{note.title}}</strong>
-                </div>
-                <div class="note-body" ng-click="onEditClicked($index)">
-                    {{note.body}}
+            <div class="background" ng-repeat="note in notes | filter:{body: searchNotes, board_id: currentBoard.id}">
+                <div class="note-container">
+                    <div class="note-title">
+                        <strong>{{note.title}}</strong>
+                    </div>
+                    <div class="note-body" ng-click="onEditClicked($index)">
+                        {{note.body}}
+                    </div>
                 </div>
             </div>
+            <div class="addNote" ng-click="onAddNoteClicked()">
+                <p>+</p>
+            </div>
+            <div class="clear vertical-spacing"></div>
         </div>
-        <div class="addNote" ng-click="onAddNoteClicked()">
-            <p>+</p>
-        </div>
-        <div class="clear vertical-spacing"></div>
     </div>
 </div>
