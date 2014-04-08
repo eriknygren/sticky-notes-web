@@ -18,7 +18,7 @@
         </div>
         <div id="mainBody">
         <div class="vertical-spacing background"></div>
-        <strong>Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
+        <strong class="whiteText">Note Filter: </strong><input ng-model="searchNotes" placeholder="Search..." type="text"/>
         <div class="pull-right background">
             <button class="btn btn-stickynotes" ng-show="currentBoard.id != null" ng-click="onBoardInfoClicked()">
                 <img class="boardIcon" src="../images/infoIcon.png">
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="addNote" ng-click="onAddNoteClicked()">
-                <p>+</p>
+                <p id="addNote">+</p>
             </div>
             <div class="clear vertical-spacing"></div>
         </div>

@@ -19,6 +19,15 @@ p.small-spacing
     color:white;
     cursor: pointer;
 }
+#addNote
+{
+    color:#33B5E5;
+}
+
+#addNote:hover
+{
+    color:white;
+}
 .no-text-selection
 {
     -webkit-user-select: none; /* Chrome/Safari */

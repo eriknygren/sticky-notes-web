@@ -4,8 +4,8 @@
     		<img id="closeBtn" src="../images/closeIcon.png">
     	</button>
 </div>
-<div class="modal-body whiteText">
-    <p>Enter the email address of the user you want to invite below. The email address must belong to a registered user</p>
+<div class="modal-body ">
+    <p class="whiteText">Enter the email address of the user you want to invite below. The email address must belong to a registered user</p>
     <form ng-submit="onAddUserClicked(email)">
         <input placeholder="Email" class="modal-input" type="text" ng-model="email">
         <input class="btn btn-success" type="submit" ng-disabled="email.trim() == ''" value="Add">
